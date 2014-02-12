@@ -26,6 +26,10 @@
             var self = this;
             var options = angular.copy(defaults);
             opts = opts || {};
+
+
+            console.log(options, opts);
+
             angular.extend(options, opts);
 
             var scope = angular.isObject(options.scope) ? options.scope : $rootScope.$new();
@@ -92,13 +96,25 @@
         link: function (scope, elm, attrs) {
           elm.on('click', function (e) {
             e.preventDefault();
-            gToast.open(attrs.gToastText, {
-              theme: attrs.gToastTheme,
-              controller: attrs.gToastController,
-              scope: attrs.gToastScope,
-              data: attrs.gToastData,
-              timeout: attrs.gToastTimeout
-            });
+
+            var opts = {};
+
+            if(!!attrs.gToastTheme)
+              opts.theme = attrs.gToastTheme;
+            
+            if(!!attrs.gToastController)
+              opts.controller = attrs.gToastController;
+            
+            if(!!attrs.gToastScope)
+              opts.scope = attrs.gToastScope;
+            
+            if(!!attrs.gToastData)
+              opts.data = attrs.gToastData;
+            
+            if(!!attrs.gToastTimeout)
+              opts.timeout = attrs.gToastTimeout;
+
+            gToast.open(attrs.gToastText, opts);
           });
         }
       };
